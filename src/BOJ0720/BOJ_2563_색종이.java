@@ -1,4 +1,4 @@
-package BOJ0719;
+package BOJ0720;
 
 import java.util.Scanner;
 
