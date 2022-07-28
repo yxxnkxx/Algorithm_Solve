@@ -16,9 +16,9 @@ public class BOJ_1316_그룹단어체커 {
 			String input = sc.next();
 			for (int i = 0; i < input.length(); i++) {
 				char c = input.charAt(i);
-				if (!check.contains(c) && ) {
-					
-				}
+//				if (!check.contains(c) &&) {
+//					
+//				}
 			}
 		}
 	}
