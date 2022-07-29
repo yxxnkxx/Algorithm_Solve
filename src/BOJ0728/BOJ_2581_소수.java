@@ -1,4 +1,4 @@
-package boj0728;
+package BOJ0728;
 
 import java.util.ArrayList;
 import java.util.List;
