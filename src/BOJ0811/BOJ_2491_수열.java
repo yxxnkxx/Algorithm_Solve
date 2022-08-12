@@ -13,7 +13,7 @@ public class BOJ_2491_수열 {
 		}
 		int increase = 1;
 		int decrease = 1;
-		// check increase
+
 		for (int i = 1; i < N; i++) {
 
 			if (arr[i - 1] == arr[i]) {
