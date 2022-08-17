@@ -26,10 +26,10 @@ public class BOJ_2578_빙고 {
 			int call = sc.nextInt();
 			cnt++;
 			for (int i = 0; i < N; i++) {
-				if (bingo[i].contains(call)) {
-					int idx = bingo[i].indexOf(call);
-					check[i].set(idx, 1);
-				}
+				int idx = bingo[i].indexOf(call);
+				if (idx == -1)
+					continue;
+				check[i].set(idx, 1);
 			}
 
 			int diagCheckLeft = 0;
@@ -37,21 +37,22 @@ public class BOJ_2578_빙고 {
 			bingoCnt = 0;
 			for (int i = 0; i < N; i++) {
 				int colCheck = 0;
-				if (!check[i].contains(0)) {
+				if (!check[i].contains(0)) { // 가로에서 0이 없으면 bingo
 					bingoCnt++;
 				}
 				for (int j = 0; j < N; j++) {
-					if (check[j].get(i) == 1) {
+					if (check[j].get(i) == 1) { // 동시에 세로 체크 1일 때 colcheck++
 						colCheck++;
 					} else {
 						colCheck = 0;
 					}
 
 				}
-				if (colCheck == 5) {
+				if (colCheck == 5) { // 세로 빙고
 					bingoCnt++;
 				}
 
+				// 대각선
 				if (check[i].get(i) == 1) {
 					diagCheckLeft++;
 				}

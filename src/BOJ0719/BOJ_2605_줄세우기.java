@@ -17,13 +17,7 @@ public class BOJ_2605_줄세우기 {
 		for (int number : arrayList) {
 			System.out.print(number + " ");
 		}
-//		
-//		StringBuilder sb = new StringBuilder();
-//		for (int number : arrayList) {
-//			sb.append(number);
-//			sb.append(" ");
-//		}
-//		System.out.println(sb.toString().trim());
+
 	}
 
 }
