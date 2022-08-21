@@ -21,6 +21,7 @@ public class BOJ_2477_참외밭 {
 			case 3:
 			case 4:
 				maxY = Math.max(maxY, data);
+				break;
 			}
 		}
 		int area = maxX * maxY;

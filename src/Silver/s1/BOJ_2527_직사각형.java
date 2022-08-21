@@ -5,8 +5,6 @@ import java.util.Scanner;
 public class BOJ_2527_직사각형 {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		int[] arrX = new int[4];
-		int[] arrY = new int[4];
 		String result = "";
 		for (int i = 0; i < 4; i++) {
 			result = "d";
