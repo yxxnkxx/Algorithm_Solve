@@ -9,7 +9,7 @@ public class BOJ_1991_트리순회 {
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int N = Integer.parseInt(br.readLine());
-		String[][] tree = new String[26][3]; // data left right
+		String[][] tree = new String[26][2]; // data left right
 		tree[0][0] = "A";
 
 		for (int i = 0; i < N; i++) {
@@ -19,17 +19,21 @@ public class BOJ_1991_트리순회 {
 			String right = st.nextToken();
 			int pIdx = 0;
 			for (int j = 0; j < 26; j++) {
-
+				if (tree[j][0] != null && tree[j][0].equals(p)) {
+					pIdx = j;
+					break;
+				}
 			}
 
-			if (tree[j] != null && tree[j].equals(p)) {
-				pIdx = j;
-				break;
-			} // 부모 인덱스 찾기
-			if (!left.equals("."))
-				tree[pIdx * 2] = left;
-			if (!right.equals("."))
-				tree[pIdx * 2 + 1] = right;
+			// 부모 인덱스 찾기
+			if (!left.equals(".")) {
+				tree[left.charAt(0) - 'A'][0] = left;
+				tree[pIdx][1] = left;
+			}
+			if (!right.equals(".")) {
+				tree[right.charAt(0) - 'A'][0] = right;
+				tree[pIdx][2] = right;
+			}
 		} // tree 입력
 		preOrder(tree, 1);
 		sb.append("\n");
@@ -41,8 +45,8 @@ public class BOJ_1991_트리순회 {
 
 	static StringBuilder sb = new StringBuilder();
 
-	static void preOrder(String[] tree, int i) {
-		if (i <= tree.length && tree[i] != null) {
+	static void preOrder(String[][] tree, int i) {
+		if (tree[i][0] != null) {
 			sb.append(tree[i]);
 			preOrder(tree, i * 2);
 			preOrder(tree, i * 2 + 1);
