@@ -6,6 +6,7 @@ public class BOJ_2580_스도쿠 {
 
 	static int[][] sudoku = new int[9][9];
 	static int[][] memo = new int[81][3]; // row col 값
+	static int cnt = 0;
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
@@ -19,28 +20,39 @@ public class BOJ_2580_스도쿠 {
 				if (sudoku[i][j] == 0) {
 					find(i, j, 1);
 				}
-
+		for (int i = 0; i < 9; i++) {
+			for (int j = 0; j < 9; j++)
+				System.out.print(sudoku[i][j] + " ");
+			System.out.println();
+		}
 	}
 
 	static void find(int row, int col, int start) {
 		boolean possible = false;
-		for (int i = start; i < 9; i++) {
+		out: for (int i = start; i < 9; i++) {
 
 			for (int d = 0; d < 9; d++) {
 				if (sudoku[d][col] == i)
-					break;
+					continue out;
 				if (sudoku[row][d] == i)
-					break;
+					continue out;
 			}
 			int r3 = row / 3 * 3;
 			int c3 = col / 3 * 3;
-			out: for (int r = r3; r <= r3 + 2; r++)
+			for (int r = r3; r <= r3 + 2; r++)
 				for (int c = c3; c <= c3 + 2; c++)
 					if (sudoku[r][c] == i)
-						break out;
+						continue out;
 			possible = true;
 			sudoku[row][col] = i;
+			memo[cnt++] = new int[] { row, col, i };
 			break;
+		}
+
+		if (!possible) {
+			cnt--;
+			sudoku[memo[cnt][0]][memo[cnt][1]] = 0; // 백트래킹
+			find(memo[cnt][0], memo[cnt][1], memo[cnt][2] + 1);
 		}
 	}
 
