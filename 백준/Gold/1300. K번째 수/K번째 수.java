@@ -3,9 +3,8 @@ import java.util.Scanner;
 public class Main {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		long N = sc.nextInt();
-		long K = sc.nextInt();
-
+		long N = sc.nextLong();
+		long K = sc.nextLong();
 		long left = 1;
 		long right = K;
 		long ans = 0;
