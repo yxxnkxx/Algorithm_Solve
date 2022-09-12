@@ -1,4 +1,7 @@
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Main {
 	static int[] in;
@@ -6,16 +9,18 @@ public class Main {
 	static int N;
 	static boolean[] visited;
 
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
-		N = sc.nextInt();
-		in = new int[N];
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		N = Integer.parseInt(br.readLine());
+		in = new int[N + 1];
 		post = new int[N];
 		visited = new boolean[N + 1];
+		StringTokenizer st = new StringTokenizer(br.readLine());
 		for (int i = 0; i < N; i++)
-			in[i] = sc.nextInt();
+			in[Integer.parseInt(st.nextToken())] = i;
+		st = new StringTokenizer(br.readLine());
 		for (int i = 0; i < N; i++)
-			post[i] = sc.nextInt();
+			post[i] = Integer.parseInt(st.nextToken());
 		preOrder(0, N - 1, 0);
 		System.out.println(sb.toString());
 	}
@@ -29,11 +34,7 @@ public class Main {
 				return;
 
 			int mid = 0; // in에서 root의 index
-			for (int i = 0; i < N; i++)
-				if (in[i] == root) {
-					mid = i;
-					break;
-				}
+			mid = in[root];
 			visited[root] = true;
 			sb.append(root + " ");
 			preOrder(left, mid - 1 - cnt, cnt);
