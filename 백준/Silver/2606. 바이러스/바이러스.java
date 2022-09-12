@@ -25,7 +25,7 @@ public class Main {
 			matrix[e][s] = 1;
 		}
 
-		bfs(1);
+		dfs(1);
 		System.out.println(cnt);
 
 	}
