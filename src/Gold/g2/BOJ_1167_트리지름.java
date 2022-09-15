@@ -25,7 +25,7 @@ public class BOJ_1167_트리지름 {
 		V = Integer.parseInt(st.nextToken());
 		nodes = new int[V + 1];
 		for (int i = 1; i <= V; i++) {
-			nodes[i] = i // 1부터 V까지를 번호로 하는 정점 생성
+			nodes[i] = i; // 1부터 V까지를 번호로 하는 정점 생성
 		}
 		Tree tree = new Tree();
 		for (int i = 0; i < V; i++) {
