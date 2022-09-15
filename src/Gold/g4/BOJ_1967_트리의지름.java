@@ -1,12 +1,14 @@
-package Gold.g2;
+package Gold.g4;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.StringTokenizer;
 
-public class BOJ_1167_트리지름 {
+public class BOJ_1967_트리의지름 {
 	static int N;
 	static TreeNode[] nodes;
 	static boolean[] visited;
@@ -22,22 +24,15 @@ public class BOJ_1167_트리지름 {
 		for (int i = 1; i <= N; i++) {
 			nodes[i] = new TreeNode(i);
 		}
-		for (int i = 0; i < N; i++) {
+		for (int i = 0; i < N - 1; i++) {
 			StringTokenizer st = new StringTokenizer(br.readLine());
-			int count = (st.countTokens() - 1) / 2;
-			int start = Integer.parseInt(st.nextToken());
-			int end = Integer.parseInt(st.nextToken());
-			nodes[start].childs = new TreeNode[count];
-			nodes[start].weights = new int[count];
-			int idx = 0;
-			while (true) {
-				if (end == -1)
-					break;
-				int weight = Integer.parseInt(st.nextToken());
-				nodes[start].childs[idx] = nodes[end];
-				nodes[start].weights[idx++] = weight;
-				end = Integer.parseInt(st.nextToken());
-			}
+			int parent = Integer.parseInt(st.nextToken());
+			int child = Integer.parseInt(st.nextToken());
+			int weight = Integer.parseInt(st.nextToken());
+			nodes[parent].childs.add(nodes[child]);
+			nodes[parent].weights.add(weight); // 같은 index는 child와 거기의 거리를 의미함
+			nodes[child].childs.add(nodes[parent]);
+			nodes[child].weights.add(weight); // 부모 노드도 똑같이 추가해줌 나중에 리프 노드부터 올라와야 하니까
 		}
 		dfs(1, 0);
 		Arrays.fill(visited, false);
@@ -52,15 +47,15 @@ public class BOJ_1167_트리지름 {
 		if (idx == 0)
 			return; // N이 1일 때 처리
 
-		for (int i = 0; i < node.childs.length; i++) {
-			TreeNode child = node.childs[i];
+		for (int i = 0; i < node.childs.size(); i++) {
+			TreeNode child = node.childs.get(i);
 			if (!visited[child.data]) {
 				visited[child.data] = true;
-				if (sum + node.weights[i] > ans) {
-					ans = sum + node.weights[i]; // 길이 update
+				if (sum + node.weights.get(i) > ans) {
+					ans = sum + node.weights.get(i); // 길이 update
 					other = child.data; // other node update
 				}
-				dfs(child.data, sum + node.weights[i]);
+				dfs(child.data, sum + node.weights.get(i));
 				visited[child.data] = false;
 			}
 		}
@@ -69,11 +64,13 @@ public class BOJ_1167_트리지름 {
 
 class TreeNode {
 	int data;
-	TreeNode[] childs;
-	int[] weights;
+	List<TreeNode> childs;
+	List<Integer> weights;
 
 	public TreeNode(int data) {
 		this.data = data;
+		childs = new ArrayList<>();
+		weights = new ArrayList<>();
 	}
 
 }
