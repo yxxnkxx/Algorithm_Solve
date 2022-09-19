@@ -16,10 +16,10 @@ public class Main {
 			Arrays.fill(ch, ' ');
 		}
 
-		star(0);
+		star(0, N - 1, N);
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < N; i++) {
-			for (int j = 1; j < 2 * N; j++)
+			for (int j = 0; j < 2 * N; j++)
 				sb.append(stars[i][j]);
 			sb.append("\n");
 		}
@@ -27,29 +27,21 @@ public class Main {
 
 	}
 
-	static void star(int idx) {
-		if (idx == N)
-			return;
-
-		if (idx == 0) {
-			stars[0][N] = '*';
-			stars[1][N - 1] = '*';
-			stars[1][N + 1] = '*';
+	static void star(int row, int col, int size) {
+		if (size == 3) {
+			stars[row][col] = '*';
+			stars[row + 1][col - 1] = stars[row + 1][col + 1] = '*';
 			for (int i = 0; i <= 2; i++) {
-				stars[2][N - i] = '*';
-				stars[2][N + i] = '*';
+				stars[row + 2][col - i] = '*';
+				stars[row + 2][col + i] = '*';
 			}
-			star(3);
-		} else {
-			for (int i = idx; i < idx * 2; i++) {
-				for (int start = N - idx + 1; start <= N + idx - 1; start++) {
-					stars[i][start - idx] = stars[i - idx][start];
-					stars[i][start + idx] = stars[i - idx][start];
-				}
-			}
-			star(idx * 2);
+			return;
 		}
 
+		size /= 2;
+		star(row, col, size);
+		star(row + size, col + size, size);
+		star(row + size, col - size, size);
 	}
 
 }
