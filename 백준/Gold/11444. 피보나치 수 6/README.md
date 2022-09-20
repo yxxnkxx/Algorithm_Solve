@@ -34,7 +34,8 @@
 
 
 
-$ \left[ \begin{matrix}
+$$ 
+\left[ \begin{matrix}
     F_{n} & F_{n-1} \\
     F_{n-1} & F_{n-2}
 \end{matrix}
@@ -45,7 +46,8 @@ $ \left[ \begin{matrix}
     F_{n-1} & F_{n-2} \\
     F_{n-2} & F_{n-3}
 \end{matrix} 
-\right] ^{2} $
+\right] ^{2} 
+$$
 
 
 행렬 제곱에서 위에 위치한 행렬은 4번째 피보나치 수에 대한 행렬이다.
