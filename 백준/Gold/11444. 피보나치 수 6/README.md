@@ -47,4 +47,4 @@ fib(1)=fib(2)=1, fib(4) = 3이다.
 
 여기에 분할 정복을 활용하면 행렬 제곱을 빠르게 구할 수 있다.
 
-https://code-master-s.tistory.com/131#comment14288009
+https://code-master-s.tistory.com/131
