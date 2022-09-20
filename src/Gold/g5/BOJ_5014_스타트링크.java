@@ -22,7 +22,7 @@ public class BOJ_5014_스타트링크 {
 		if (ans!=0 && ans < cnt) return;
 		
 		if (floor>F || floor <0)
-			return;
+			return; 
 		
 		if (floor==G) {
 			if (ans==0 || ans > cnt) ans = cnt;
