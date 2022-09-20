@@ -34,19 +34,6 @@
 
 피보나치 행렬
 
-$$ \left[\begin{matrix}
-    F_{n} & F_{n-1} \\
-    F_{n-1} & F_{n-2}
-\end{matrix}
-\right] 
-=
- \left[
-\begin{matrix}
-    F_{n-1} & F_{n-2} \\
-    F_{n-2} & F_{n-3}
-\end{matrix} 
-\right] ^{2} $$
-
 
 행렬 제곱에서 위에 위치한 행렬은 4번째 피보나치 수에 대한 행렬이다.
 
@@ -59,3 +46,5 @@ fib(1)=fib(2)=1, fib(4) = 3이다.
 반복해서 행렬을 그려나가다 보면 이해할 수 있을 것이다.
 
 여기에 분할 정복을 활용하면 행렬 제곱을 빠르게 구할 수 있다.
+
+https://code-master-s.tistory.com/131#comment14288009
