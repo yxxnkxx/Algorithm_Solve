@@ -30,22 +30,22 @@ public class Main {
 		} else {
 			// 4개중에 r, c가 위치한 곳 찾기
 			int dis = (int) Math.pow(2, size - 1);
-			if (row < r + dis && col < c + dis)
+			if (row < r + dis && col < c + dis) // 위치가 1
 				findZ(r, c, size - 1);
-			else
-				cnt += dis * dis;
-			if (row < r + dis && col >= c + dis)
+
+			cnt += dis * dis;
+			if (row < r + dis && col >= c + dis) // 2
 				findZ(r, c + dis, size - 1);
-			else
-				cnt += dis * dis;
-			if (row >= r + dis && col < c + dis)
+
+			cnt += dis * dis;
+			if (row >= r + dis && col < c + dis) // 3
 				findZ(r + dis, c, size - 1);
-			else
-				cnt += dis * dis;
+
+			cnt += dis * dis;
 			if (row >= r + dis && col >= c + dis)
 				findZ(r + dis, c + dis, size - 1);
-			else
-				cnt += dis * dis;
+
+			cnt += dis * dis;
 		}
 	}
 }
