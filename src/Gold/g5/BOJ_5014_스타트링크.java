@@ -24,6 +24,7 @@ public class BOJ_5014_스타트링크 {
 			System.out.println(ans);
 
 	}
+<<<<<<< HEAD
 
 	static void bfs(int floor, int cnt) {
 		Queue<Integer> q = new LinkedList<>();
@@ -51,6 +52,18 @@ public class BOJ_5014_스타트링크 {
 
 			cnt++;
 
+=======
+	
+	static void dfs(int floor, int cnt) {
+		if (ans!=0 && ans < cnt) return;
+		
+		if (floor>F || floor <0)
+			return; 
+		
+		if (floor==G) {
+			if (ans==0 || ans > cnt) ans = cnt;
+			return;
+>>>>>>> 9b74825ce98ac6eccb810114652e576b328dbd83
 		}
 
 	}
