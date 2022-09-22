@@ -1,4 +1,4 @@
-package Silver.s4;
+package Gold.g4;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,7 +7,7 @@ import java.util.StringTokenizer;
 
 public class BOJ_17069_파이프옮기기2 {
 	static int N;
-	static long[][][] dp;
+	static long[][][] dp; // int로 하면 N이 커졌을 때 답 틀림
 	static int[][] map;
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
