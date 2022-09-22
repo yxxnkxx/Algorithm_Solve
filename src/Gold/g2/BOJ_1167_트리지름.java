@@ -16,13 +16,11 @@ public class BOJ_1167_트리지름 {
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		V = Integer.parseInt(st.nextToken());
-		nodes = new int[V + 1];
-		for (int i = 1; i <= V; i++) {
-			nodes[i] = i; // 1부터 V까지를 번호로 하는 정점 생성
-
+		N = Integer.parseInt(br.readLine());
+		nodes = new TreeNode[N + 1];
+		visited = new boolean[N + 1];
+		for (int i = 1; i <= N; i++) {
+			nodes[i] = new TreeNode(i);
 		}
 		for (int i = 0; i < N; i++) {
 			StringTokenizer st = new StringTokenizer(br.readLine());
