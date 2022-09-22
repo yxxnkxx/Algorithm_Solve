@@ -44,7 +44,9 @@ public class BOJ_2579_계단오르기 {
 		else if (dp[stair - 1][1] == 1) // 연속 불가능
 		{
 			dp[stair][0] = Math.max(dp[stair - 1][0] - stairs[stair - 1], dp[stair - 2][0]) + stairs[stair]; // n-1 포함x,
+
 			dp[stair][0] = Math.max(dp[stair][0], dp[stair - 1][0]); // n을 포함x
+
 		} else {
 			if (dp[stair - 1][0] > dp[stair - 2][0]) {
 				dp[stair][0] = dp[stair - 1][0] + stairs[stair];
