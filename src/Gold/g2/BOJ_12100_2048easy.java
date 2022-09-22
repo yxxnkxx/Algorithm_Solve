@@ -51,7 +51,6 @@ public class BOJ_12100_2048easy {
 		switch (dir) {
 		case 0:
 			// 아래 -> 밑에서부터 검사함
-			// 0이 아닐 때까지 땡기기
 			for (int c = 0; c < N; c++) {
 				for (int r = N - 1; r >= 0; r--) {
 					if (arr[r][c] == 0) {
@@ -62,7 +61,7 @@ public class BOJ_12100_2048easy {
 								break;
 							}
 						}
-					} // 0 땡기기
+					} // 0 없애기
 
 				}
 				for (int r = N - 1; r >= 1; r--) {
@@ -90,7 +89,7 @@ public class BOJ_12100_2048easy {
 								break;
 							}
 						}
-					} // 0 땡기기
+					}
 
 				}
 				for (int r = 0; r < N - 1; r++) {
@@ -118,7 +117,7 @@ public class BOJ_12100_2048easy {
 								break;
 							}
 						}
-					} // 0 땡기기
+					}
 
 				}
 				for (int c = N - 1; c >= 1; c--) {
