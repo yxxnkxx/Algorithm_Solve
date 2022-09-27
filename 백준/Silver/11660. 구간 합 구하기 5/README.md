@@ -57,3 +57,6 @@
 
  <p>총 M줄에 걸쳐 (x1, y1)부터 (x2, y2)까지 합을 구해 출력한다.</p>
 
+---
+
+[](https://code-master-s.tistory.com/149)
