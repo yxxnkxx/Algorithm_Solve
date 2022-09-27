@@ -59,4 +59,4 @@
 
 ---
 
-[](https://code-master-s.tistory.com/149)
+[풀이 링크] (https://code-master-s.tistory.com/149)
