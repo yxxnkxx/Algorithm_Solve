@@ -16,11 +16,9 @@ public class Main {
 
 		for (int i = 1; i <= input.length(); i++) {
 			for (int j = 0; j < 26; j++) {
-				if (input.charAt(i - 1) - 'a' == j) {
-					arr[i][j] = arr[i - 1][j] + 1;
-				} else
-					arr[i][j] = arr[i - 1][j];
+				arr[i][j] = arr[i - 1][j];
 			}
+			arr[i][input.charAt(i - 1) - 'a'] += 1;
 		} // 알파벳 기준으로 누적합하기
 
 		StringBuilder sb = new StringBuilder();
