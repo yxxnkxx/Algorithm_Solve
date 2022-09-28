@@ -1,11 +1,10 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class Main {
 
-	static class Edge implements Comparable<Edge> {
+	static class Edge {
 		int st;
 		int ed;
 		long w;
@@ -16,55 +15,59 @@ public class Main {
 			this.w = w;
 		}
 
-		@Override
-		public int compareTo(Edge o) {
-			return Long.compare(this.w, o.w);
-		}
-
 	}
 
 	static int V, E;
-	static List<Edge>[] adjList;
-	static boolean[] visited;
+	static Edge[] adjArr;
+	static int[] p;
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		V = sc.nextInt();
 		E = sc.nextInt();
 
-		adjList = new ArrayList[V + 1];
-		for (int i = 0; i <= V; i++)
-			adjList[i] = new ArrayList<>();
-
-		visited = new boolean[V + 1];
+		adjArr = new Edge[E];
 
 		for (int i = 0; i < E; i++) {
 			int st = sc.nextInt();
 			int ed = sc.nextInt();
 			int w = sc.nextInt();
-			adjList[st].add(new Edge(st, ed, w));
-			adjList[ed].add(new Edge(ed, st, w)); // 무향 그래프
+			adjArr[i] = new Edge(st, ed, w);
 		}
 
-		// 1번부터 시작
-		visited[1] = true;
-		PriorityQueue<Edge> q = new PriorityQueue<>();
-		q.addAll(adjList[1]);
-		int pick = 0;
+		Arrays.sort(adjArr, new Comparator<Edge>() {
+			@Override
+			public int compare(Edge o1, Edge o2) {
+				return Long.compare(o1.w, o2.w);
+			}
+		});
+
+		p = new int[V + 1];
+		// make-set
+		for (int i = 1; i <= V; i++)
+			p[i] = i;
+
 		long ans = 0;
-
-		while (pick < V - 1) {
-			Edge e = q.poll();
-			if (visited[e.ed])
-				continue;
-
-			ans += e.w;
-			visited[e.ed] = true;
-			pick++;
-			q.addAll(adjList[e.ed]);
-
+		for (int i = 0; i < E; i++) {
+			int st = adjArr[i].st;
+			int ed = adjArr[i].ed;
+			long w = adjArr[i].w;
+			int setX = findSet(st);
+			int setY = findSet(ed);
+			if (setX != setY) {// cycle 아님
+				// union
+				p[setY] = p[setX];
+				ans += w;
+			}
 		}
 		System.out.println(ans);
 
 	}
+
+	static int findSet(int x) {
+		if (p[x] != x)
+			p[x] = findSet(p[x]);
+		return p[x];
+	}
+
 }
