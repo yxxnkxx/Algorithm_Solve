@@ -1,15 +1,19 @@
 
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Main {
 	static int N, M;
 	static int[] p;
 	static int[] rank;
 
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
-		N = sc.nextInt();
-		M = sc.nextInt();
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		N = Integer.parseInt(st.nextToken());
+		M = Integer.parseInt(st.nextToken());
 		p = new int[N + 1];
 		rank = new int[N + 1]; // 초기값은 0, union하면 증가
 		// make-set
@@ -17,13 +21,15 @@ public class Main {
 			p[i] = i;
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < M; i++) {
-			int comm = sc.nextInt();
-			int a = sc.nextInt();
-			int b = sc.nextInt();
+			st = new StringTokenizer(br.readLine());
+			int comm = Integer.parseInt(st.nextToken());
+			int a = Integer.parseInt(st.nextToken());
+			int b = Integer.parseInt(st.nextToken());
 
 			switch (comm) {
 			case 0:
 				// union
+				// rank 활용
 				int setA = findSet(a);
 				int setB = findSet(b);
 				if (rank[setA] > rank[setB])
