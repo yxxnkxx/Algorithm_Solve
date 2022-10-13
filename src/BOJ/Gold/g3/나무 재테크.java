@@ -1,5 +1,3 @@
-package BOJ.Gold.g3;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -9,11 +7,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.StringTokenizer;
 
-public class BOJ_16235_나무재테크 {
+public class Main {
 	static int N, M, K;
 	static int[][] map;
 	static List<Integer>[][] trees;
 	static int[][] A;
+//	static List<int[]> trees;
 	static int[] dr = { -1, 1, 0, 0, 1, 1, -1, -1 };
 	static int[] dc = { 0, 0, -1, 1, -1, 1, -1, 1 };
 	static final int INF = Integer.MAX_VALUE;
@@ -26,6 +25,7 @@ public class BOJ_16235_나무재테크 {
 		K = Integer.parseInt(st.nextToken());
 
 		map = new int[N + 1][N + 1];
+//		trees = new ArrayList<>();
 		trees = new ArrayList[N + 1][N + 1];
 		for (int i = 1; i <= N; i++)
 			for (int j = 1; j <= N; j++)
