@@ -13,14 +13,16 @@ class Meeting implements Comparable<Meeting> {
 	}
 
 	@Override
-	public String toString() {
-		return start + " " + end;
+	public int compareTo(Meeting o) {
+		if (this.end == o.end)
+			return this.start - o.start;
+		return this.end - o.end;
 	}
 
 	@Override
-	public int compareTo(Meeting o) {
-
-		return this.start - o.start;
+	public String toString() {
+		// TODO Auto-generated method stub
+		return start + " " + end;
 	}
 
 }
@@ -34,8 +36,15 @@ public class BOJ_1931_회의실배정 {
 			arr[i] = new Meeting(sc.nextInt(), sc.nextInt());
 
 		Arrays.sort(arr);
-
-		int ans = 0;
+		int end = 0;
+		int cnt = 0;
+		for (int i = 0; i < N; i++) {
+			if (arr[i].start >= end) {
+				cnt++;
+				end = arr[i].end;
+			}
+		}
+		System.out.println(cnt);
 
 	}
 
