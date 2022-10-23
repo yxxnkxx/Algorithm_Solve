@@ -4,6 +4,7 @@ import java.util.*;
 
 public class BOJ_17244_아맞다우산 {
 
+
     static class Items {
 
         int id;
@@ -24,9 +25,13 @@ public class BOJ_17244_아맞다우산 {
 
     static int start_r;
     static int start_c;
-
+    static int[] order;
+    static boolean[] pick;
+    static int itemCnt;
     static int[] dr = {1, -1, 0, 0};
     static int[] dc = {0, 0, 1, -1};
+
+    static int ans = Integer.MAX_VALUE;
 
     public static void main(String[] args) {
 
@@ -52,58 +57,117 @@ public class BOJ_17244_아맞다우산 {
             }
         }
 
-        int ans = 0;
-        // bfs 비트마스킹
-        Queue<int[]> q = new LinkedList<>();
-        q.add(new int[]{start_r, start_c, 0, 0, 0});
-        int itemCnt = items.size();
-        while (!q.isEmpty()) {
+        itemCnt = items.size();
 
-            int[] tmp = q.poll();
-            int r = tmp[0];
-            int c = tmp[1];
-            int cnt = tmp[2];
-            int time = tmp[3];
-            int visit = tmp[4];
+        order = new int[itemCnt];
+        pick = new boolean[itemCnt];
+        perm(0);
 
-            if (map[r][c] == 'E') {
-                if (visit == Math.pow(2, itemCnt) - 1) {
-                    ans = time;
-                    break;
-                }
+
+        System.out.println(ans);
+    }
+
+
+    static void perm(int depth) {
+        if (depth == itemCnt) {
+            bfs();
+            return;
+        }
+        for (int i = 0; i < itemCnt; i++) {
+            if (!pick[i]) {
+                pick[i] = true;
+                order[depth] = i;
+                perm(depth + 1);
+                pick[i] = false;
             }
-            if (map[r][c] == 'E') continue;
+        }
+    }
 
-            if (map[r][c] == 'X') {
-                int id = 0;
+    static void bfs() {
 
-                for (int i = 0; i < itemCnt; i++) {
-                    if (items.get(i).r == r && items.get(i).c == c) {
-                        id = items.get(i).id;
-                        break;
+        Queue<int[]> q = new LinkedList<>();
+
+        int R = start_r;
+        int C = start_c;
+
+        int Time = 0;
+        int[][] visit = new int[M][N];
+        for (int i = 0; i < M; i++)
+            Arrays.fill(visit[i], -1);
+        out: for (int i = 0; i < itemCnt; i++) {
+
+            Items item = items.get(order[i]); // 방문할 곳
+            int dest_r = item.r;
+            int dest_c = item.c;
+            int id = item.id;
+
+
+            q.add(new int[]{R, C, Time});
+
+            while (!q.isEmpty()) {
+                int[] tmp = q.poll();
+                int r = tmp[0];
+                int c = tmp[1];
+                int time = tmp[2];
+
+
+                if (r == dest_r && c == dest_c) {
+                    // 목적지까지 도착함, 다음으로 이동
+                    q.clear();
+                    R = dest_r;
+                    C = dest_c;
+                    Time = time;
+
+                    continue out;
+
+                }
+
+                if (visit[r][c] == id) continue;
+                visit[r][c]=id;
+                for (int d = 0; d < 4; d++) {
+                    int nr = r + dr[d];
+                    int nc = c + dc[d];
+                    if ((map[nr][nc] == '.' || map[nr][nc]=='X')&& visit[nr][nc] != id) {
+
+                        q.add(new int[]{nr, nc, time + 1});
                     }
                 }
 
-                if ((visit & (1 << id)) == 0) {// 방문한적 없음
-                    q.add(new int[]{r, c, cnt + 1, time, (visit | (1 << id))});
+            }
+        }
 
-                }
+        q.add(new int[]{R, C, Time});
+        // 마지막에는 E를 향해서 ㄱㄱ
+        while (!q.isEmpty()) {
+            int[] tmp = q.poll();
+            int r = tmp[0];
+            int c = tmp[1];
+            int time = tmp[2];
+
+            if (map[r][c] == 'E') {
+                // 목적지까지 도착함, 다음으로 이동
+                ans = Math.min(ans, time);
+                break;
+
             }
 
+            if (visit[r][c] == 6) continue;
+            visit[r][c]=6;
             for (int d = 0; d < 4; d++) {
                 int nr = r + dr[d];
                 int nc = c + dc[d];
-                if (map[nr][nc] != '#' && visited[nr][nc] != visit) {
-                    visited[nr][nc] = visit;
-                    q.add(new int[]{nr, nc, cnt, time + 1, visit});
+                if (map[nr][nc] != '#' && visit[nr][nc] != 6) {
+
+                    q.add(new int[]{nr, nc, time + 1});
 
                 }
             }
 
         }
-        System.out.println(ans);
+
+
     }
-
-
 }
+
+
 
