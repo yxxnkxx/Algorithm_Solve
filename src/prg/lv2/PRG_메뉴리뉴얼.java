@@ -6,7 +6,6 @@ public class PRG_메뉴리뉴얼 {
     static List<String> list = new ArrayList<>();
     static List<Character[]> combs = new ArrayList<>();
 
-    //    static String[] answer = {};
     static public String[] solution(String[] orders, int[] course) {
 
 
