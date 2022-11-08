@@ -72,57 +72,10 @@ class Solution {
     static boolean find(int[] left, int[] right, int num, String hand) {
         // bfs로 거리 찾기
         int[] pos = posMap.get(num);
-        int leftDis = -1;
-        int rightDis = -1;
+        int leftDis = Math.abs(left[0]-pos[0]) + Math.abs(left[1]-pos[1]);
+        int rightDis = Math.abs(right[0]-pos[0]) + Math.abs(right[1]-pos[1]);
         // 왼손
-        Queue<int[]> leftQ = new LinkedList<>();
-        leftQ.add(new int[]{left[0], left[1], 0});
-        boolean[][] visited = new boolean[4][3];
-        int[] tmp;
-        while (!leftQ.isEmpty()) {
-            tmp = leftQ.poll();
-            int r = tmp[0];
-            int c = tmp[1];
-            int cnt = tmp[2];
-            if (r == pos[0] && c == pos[1]) {
-                leftDis = cnt;
-                break;
-            }
-
-            if (visited[r][c]) continue;
-            visited[r][c] = true;
-            for (int d = 0; d < 4; d++) {
-                int nr = r + dr[d];
-                int nc = c + dc[d];
-                if (nr >= 0 && nr < 4 && nc >= 0 && nc < 3 && !visited[nr][nc])
-                    leftQ.add(new int[]{nr, nc, cnt + 1});
-            }
-        }
-
-        // 오른손
-        Queue<int[]> rightQ = new LinkedList<>();
-        rightQ.add(new int[]{right[0], right[1], 0});
-        visited = new boolean[4][3];
-
-        while (!rightQ.isEmpty()) {
-            tmp = rightQ.poll();
-            int r = tmp[0];
-            int c = tmp[1];
-            int cnt = tmp[2];
-            if (r == pos[0] && c == pos[1]) {
-                rightDis = cnt;
-                break;
-            }
-
-            if (visited[r][c]) continue;
-            visited[r][c] = true;
-            for (int d = 0; d < 4; d++) {
-                int nr = r + dr[d];
-                int nc = c + dc[d];
-                if (nr >= 0 && nr < 4 && nc >= 0 && nc < 3 && !visited[nr][nc])
-                    rightQ.add(new int[]{nr, nc, cnt + 1});
-            }
-        }
+       
 
         if (rightDis < leftDis) return true;
         else if (rightDis > leftDis) return false;
