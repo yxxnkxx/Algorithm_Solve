@@ -47,13 +47,13 @@ public class BOJ_19236_청소년상어 {
         removed[fish[3]] = true;
         map[0][0] = 0;
 
-        dfs(0);
+        dfs(shark.clone(), 0);
         System.out.println(ans);
 
 
     }
 
-    static void dfs(int depth) {
+    static void dfs(int[] shark, int depth) {
 
         ans = Math.max(ans, shark[3]);
 
@@ -148,19 +148,19 @@ public class BOJ_19236_청소년상어 {
 
             int[] tmpShark = shark.clone();
 
-            shark[0] = eat[0];
-            shark[1] = eat[1];
-            shark[2] = eat[2];
-            shark[3] += eat[3];
+//            shark[0] = eat[0];
+//            shark[1] = eat[1];
+//            shark[2] = eat[2];
+//            shark[3] += eat[3];
             // 먹은 곳 0 으로 만들기
             map[eat[0]][eat[1]] = 0;
 
             removed[eat[3]] = true;
 
 
-            dfs(depth + 1);
+            dfs(new int[]{eat[0], eat[1], eat[2], shark[3]+eat[3]},depth + 1);
 
-            shark= tmpShark.clone();
+//            shark= tmpShark.clone();
             // 원상 복구
 
             System.out.println("복구 후 shark");
