@@ -45,28 +45,27 @@ public class BOJ_19236_청소년상어 {
         shark[2] = fish[2];
         shark[3] = fish[3];
         removed[fish[3]] = true;
-        map[0][0] = 0;
+        map[0][0] = -1;
 
-        dfs(shark.clone(), 0);
+        dfs(map, shark.clone(), fishList, removed);
         System.out.println(ans);
 
 
     }
 
-    static void dfs(int[] shark, int depth) {
+    static void dfs(int[][] map, int[] shark, int[][] fishList, boolean[] removed) {
 
         ans = Math.max(ans, shark[3]);
 
-        // 물고기 원래 값 저장
-        int[][] tmpFishList = new int[16][4];
-        for (int i = 0; i < 16; i++)
-            tmpFishList[i] = fishList[i].clone();
-        // map 원래 값 저장
-        int[][] tmpMap = new int[N][N];
-        for (int i = 0; i < N; i++)
-            tmpMap[i] = map[i].clone();
+        // 처음 맵 상태
+        int[][] initMap = new int[4][4];
+        for (int i=0; i<4; i++)
+            initMap[i]=map[i].clone();
+        int[][] initFish = new int[16][4];
+        for (int i=0; i<16; i++)
+            initFish[i] = fishList[i].clone();
 
-
+        map[shark[0]][shark[1]]=-1;
         // 물고기 이동
         for (int i = 0; i < 16; i++) {
             int[] fish = fishList[i];
@@ -81,14 +80,12 @@ public class BOJ_19236_청소년상어 {
                 int nr = r + dr[(dir + d) % 8]; // 45도씩 회전
                 int nc = c + dc[(dir + d) % 8];
                 if (nr >= 0 && nr < N && nc >= 0 && nc < N) {
-                    if (nr == shark[0] && nc == shark[1]) // 상어 위치랑 겹치면 다음 방향 탐색
+                    if (map[nr][nc]==-1) // 상어 위치랑 겹치면 다음 방향 탐색
                         continue;
                     // 아니라면 자리 바꾸기
                     if (map[nr][nc] == 0) {
-                        map[nr][nc] = num;
                         fish[0] = nr;
                         fish[1] = nc;
-                        fish[2] = (dir + d) % 8;
                         map[r][c] = 0;
                     } else {
                         int[] change = fishList[map[nr][nc] - 1];
@@ -98,91 +95,50 @@ public class BOJ_19236_청소년상어 {
                         map[r][c] = change[3]; // 자리 이동
                         fish[0] = nr;
                         fish[1] = nc;
-                        map[nr][nc] = num;
-                        fish[2] = (dir + d) % 8; // 자리 이동, 방향 변경
+
+                        // 자리 이동, 방향 변경
 
                     }
+                    fish[2] = (dir + d) % 8; // 방향 변경
+                    map[nr][nc] = num;
                     break;
                 }
             }
         }
 
 
-        // 이동 이후 물고기 값 저장
-        int[][] tmpFishList2 = new int[16][4];
-        for (int i = 0; i < 16; i++)
-            tmpFishList2[i] = fishList[i].clone();
-        // 이동 이후 map 값 저장
-
-        System.out.println("map");
-        int[][] tmpMap2 = new int[N][N];
-        for (int i = 0; i < N; i++) {
-            tmpMap2[i] = map[i].clone();
-            System.out.println(Arrays.toString(map[i]));
-        }
-        System.out.println("map");
-
-        // 상어 원래 값 저장
-
-        int nr = shark[0] + dr[shark[2]];
-        int nc = shark[1] + dc[shark[2]];
-
-
         // 상어 이동 후 잡아먹기
-        System.out.println("상어 이동");
-        while (nr >= 0 && nr < N && nc >= 0 && nc < N) {
-            System.out.println(nr + " " + nc);
-            // 해당 칸에 물고기가 없으면 nr, nc 검사
-            if (map[nr][nc] == 0 || removed[map[nr][nc]]) {
-                nr += dr[shark[2]];
-                nr += dc[shark[2]];
-                continue;
+        for (int d = 1; d < 4; d++) {
+            int nr = shark[0] + dr[shark[2]] * d;
+            int nc = shark[1] + dc[shark[2]] * d;
+            if (nr >= 0 && nr < N && nc >= 0 && nc < N && map[nr][nc]!=0) {
+
+                // 배열 복사가 헷갈릴 때는 원상복구하지 말고 이동할 때 새로운 배열 생성하기~
+                int[][] tmpFishList = new int[16][4];
+                for (int i = 0; i < 16; i++)
+                    tmpFishList[i] = fishList[i].clone();
+                // 이동 이후 map 값 저장
+                int[][] tmpMap = new int[N][N];
+                for (int i = 0; i < N; i++) {
+                    tmpMap[i] = map[i].clone();
+                }
+                tmpMap[shark[0]][shark[1]] = 0;
+                int[] eat = tmpFishList[map[nr][nc] - 1];
+                int eatNum = eat[3];
+                boolean[] tmpRemove = removed.clone();
+                tmpRemove[eatNum] = true;
+                tmpMap[eat[0]][eat[1]] = -1;
+
+                dfs(tmpMap, new int[]{eat[0], eat[1], eat[2], shark[3] + eat[3]}, tmpFishList, tmpRemove);
+
+
             }
-
-            int[] eat = fishList[map[nr][nc] - 1];
-            // 물고기가 있으면 잡아먹기
-
-            // 현재 상어
-            System.out.println("잡아먹기 전 shark");
-            System.out.println(Arrays.toString(shark));
-
-            int[] tmpShark = shark.clone();
-
-//            shark[0] = eat[0];
-//            shark[1] = eat[1];
-//            shark[2] = eat[2];
-//            shark[3] += eat[3];
-            // 먹은 곳 0 으로 만들기
-            map[eat[0]][eat[1]] = 0;
-
-            removed[eat[3]] = true;
-
-
-            dfs(new int[]{eat[0], eat[1], eat[2], shark[3]+eat[3]},depth + 1);
-
-//            shark= tmpShark.clone();
-            // 원상 복구
-
-            System.out.println("복구 후 shark");
-            System.out.println(Arrays.toString(shark));
-
-            for (int i = 0; i < N; i++)
-                map[i] = tmpMap2[i].clone();
-            for (int i = 0; i < 16; i++)
-                fishList[i] = tmpFishList2[i].clone();
-            removed[eat[3]] = false;
-
-            nr += dr[shark[2]];
-            nc += dc[shark[2]];
-
         }
 
-//        // 원상 복구
-
-//        for (int i = 0; i < N; i++)
-//            map[i] = tmpMap[i].clone();
-//        for (int i = 0; i < 16; i++)
-//            fishList[i] = tmpFishList[i].clone();
+        for (int i=0; i<4; i++)
+            map[i]=initMap[i].clone();
+        for (int i=0; i<16; i++)
+            fishList[i] = initFish[i].clone();
 
 
     }
