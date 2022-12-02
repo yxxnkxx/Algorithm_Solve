@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class No1 {
-
+ // test
 	static int[] dis; // 각 index의 거리를 저장함
 	static int[][] pos = new int[3][];
 	static int N;
