@@ -20,9 +20,6 @@ public class Main {
     }
 
 
-    static boolean changed;
-
-
     static int M, N, H;
     static int[][][] map;
 
@@ -48,20 +45,15 @@ public class Main {
                 st = new StringTokenizer(br.readLine());
                 for (int m = 0; m < M; m++) {
                     map[m][n][h] = Integer.parseInt(st.nextToken());
-                    if (map[m][n][h] == 0) {
-                        cntZero++;
-                    } else if (map[m][n][h] == 1) {
+                    if (map[m][n][h] == 1) {
                         q.add(new Tomato(m, n, h, 0));
                     }
                 }
             }
         }
-        if (cntZero == 0) {
-            System.out.println(0);
-            return;
-        }
 
-        int cnt = 1;
+
+        int cnt = 0;
 
         while (!q.isEmpty()) {
             Tomato t = q.poll();
@@ -69,8 +61,6 @@ public class Main {
             change(t.m, t.n, t.h, t.day);
 
         }
-        // 0이 있는지 확인
-
         for (int h = 0; h < H; h++)
             for (int n = 0; n < N; n++)
 
