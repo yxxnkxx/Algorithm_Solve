@@ -2,7 +2,7 @@ package BOJ.Gold.g3;
 
 import java.util.*;
 
-public class BOJ_1004_ACMcraft {
+public class BOJ_1005_ACMcraft {
 
 
     static int N, K, W; // 건물 개수, 간선
