@@ -6,95 +6,67 @@ import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
-
-    static int R, C;
-    static Character map[][];
-    static int[] dx = {-1, 1, 0, 0};
-    static int[] dy = {0, 0, -1, 1};
-    static Queue<int[]> sq = new LinkedList<int[]>();	//고슴도치 전용큐
-    static Queue<int[]> wq = new LinkedList<int[]>();	//물 전용큐
-    static int answer = Integer.MAX_VALUE;
-
+    static int[] dr = {-1, 1, 0, 0};
+    static int[] dc = {0, 0, 1, -1};
 
     public static void main(String[] args) throws IOException {
+
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
-        st = new StringTokenizer( br.readLine() );
-        R = Integer.parseInt( st.nextToken() );
-        C = Integer.parseInt( st.nextToken() );
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-        //*: 물 / .: 비어있음 / X: 돌
-        map = new Character[R][C];
+        int R = Integer.parseInt(st.nextToken());
+        int C = Integer.parseInt(st.nextToken());
+        char[][] map = new char[R][C];
 
-        for( int i=0; i<R; i++ ) {
-            String str = br.readLine();
-            for( int j=0; j<C; j++ ) {
-                map[i][j] = str.charAt(j);
-
-                //BFS를 이용하므로 S 혹은 *이 나오면
-                //바로 각 큐에 넣어준다.
-                if( map[i][j] == 'S' )
-                    sq.add( new int[] {i, j, 0} );
-                else if( map[i][j] == '*' )
-                    wq.add( new int[] {i, j} );
+        Queue<int[]> sq = new LinkedList<>();
+        Queue<int[]> wq = new LinkedList<>();
+        for (int r = 0; r < R; r++) {
+            String input = br.readLine();
+            for (int c = 0; c < C; c++) {
+                map[r][c] = input.charAt(c);
+                if (map[r][c] == 'S')
+                    sq.add(new int[]{r, c, 0});
+                else if (map[r][c] == '*')
+                    wq.add(new int[]{r, c});
             }
         }
-
-        BFS();
-
-        System.out.println( answer==Integer.MAX_VALUE ? "KAKTUS" : answer );
-    }
-
-    public static void BFS() {
-
-        while( !sq.isEmpty() ) {
-            //먼저 물을 이동시킨다.
-        	int w_len = wq.size();
-            for( int i=0; i<w_len; i++ ) {
-                int[] cur_w = wq.poll();
-
-                for( int j=0; j<4; j++ ) {
-                    int nx = cur_w[0] + dx[j];
-                    int ny = cur_w[1] + dy[j];
-
-                    //물의 새로운 좌표가 map범위 안에 있고, 새로운 좌표로 이동할 수 있으면
-                    if( nx>=0 && nx<R && ny>=0 && ny<C && map[nx][ny]=='.' ) {
-                        //물의 새로운 좌표를 물로 채운다.
-                        map[nx][ny] = '*';
-
-                        //물의 새로운 좌표를 물큐에 넣어준다.
-                        wq.add( new int[] { nx, ny } );
+        while (!sq.isEmpty()) {
+            int wSize = wq.size();
+            for (int i = 0; i < wSize; i++) {
+                int[] water = wq.poll();
+                for (int d = 0; d < 4; d++) {
+                    int nr = water[0] + dr[d];
+                    int nc = water[1] + dc[d];
+                    if (nr >= 0 && nr < R && nc >= 0 && nc < C && map[nr][nc] == '.') {
+                        map[nr][nc] = '*';
+                        wq.add(new int[]{nr, nc});
                     }
                 }
             }
 
-            //물 이동시켰으므로 다음으로 고슴도치 이동시킨다.
-            int s_len = sq.size();
-            for( int i=0; i<s_len; i++ ) {
-                int[] cur_s = sq.poll();
-
-                for( int j=0; j<4; j++ ) {
-                    int nx = cur_s[0] + dx[j];
-                    int ny = cur_s[1] + dy[j];
-                    int time = cur_s[2];
-
-                    //고슴도치 새로운 좌표가 map범위 안에 있다면
-                    if( nx>=0 && nx<R && ny>=0 && ny<C ) {
-                        //고슴도치 새 좌표가 비버굴에 도착했으면 종료
-                        if( map[nx][ny] == 'D' ) {
-                            answer = Math.min( answer, time+1 );
+            int sSize = sq.size();
+            for (int i = 0; i < sSize; i++) {
+                int[] hog = sq.poll();
+                int r = hog[0];
+                int c = hog[1];
+                int time = hog[2];
+                for (int d = 0; d < 4; d++) {
+                    int nr = r + dr[d];
+                    int nc = c + dc[d];
+                    if (nr >= 0 && nr < R && nc >= 0 && nc < C) {
+                        if (map[nr][nc] == 'D') {
+                            System.out.println(time + 1);
                             return;
-                        }
-                        //고슴도치 새 좌표가 갈 수 있는 공간이면
-                        else if( map[nx][ny] == '.' ) {
-                            map[nx][ny] = 'S';
-                            sq.add( new int[] { nx, ny, time+1 } );
+                        } else if (map[nr][nc] == '.') {
+                            map[nr][nc] = 'S';
+                            sq.add(new int[]{nr, nc, time + 1});
                         }
                     }
+
                 }
             }
         }
-
+        System.out.println("KAKTUS");
 
     }
 }
